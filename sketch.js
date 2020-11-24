@@ -1,66 +1,81 @@
+//CREATE THE VARIABLES
 var helicopterIMG, helicopterSprite, packageSprite,packageIMG;
-var packageBody,ground
+var packageBody,ground;
+
+//CALLS THE PHYSICS ENGINE
 const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Body = Matter.Body;
 
+//PRELOAD FNC. TO LOAD IMAGES
 function preload()
 {
-	helicopterIMG=loadImage("helicopter.png")
-	packageIMG=loadImage("package.png")
+helicopterIMG=loadImage("helicopter.png")
+packageIMG=loadImage("package.png")
 }
 
 function setup() {
-	createCanvas(800, 700);
-	rectMode(CENTER);
-	
+//CREATES CANVAS
+createCanvas(800, 700);
+//ADJUSTS RECTANGLE ACCORDING TO ITS CENTRE
+rectMode(CENTER);
 
-	packageSprite=createSprite(width/2, 80, 10,10);
-	packageSprite.addImage(packageIMG)
-	packageSprite.scale=0.2
+//PACKAGE SPRITE
+packageSprite=createSprite(width/2, 80, 10,10);
+packageSprite.addImage(packageIMG)
+packageSprite.scale=0.2
 
-	helicopterSprite=createSprite(width/2, 200, 10,10);
-	helicopterSprite.addImage(helicopterIMG)
-	helicopterSprite.scale=0.6
+//HELICOPTER SPRITE
+helicopterSprite=createSprite(width/2, 200, 10,10);
+helicopterSprite.addImage(helicopterIMG)
+helicopterSprite.scale=0.6
 
-	groundSprite=createSprite(width/2, height-35, width,10);
-	groundSprite.shapeColor=color(255)
+//GROUND SPRITE
+groundSprite=createSprite(width/2, height-35, width,10);
+groundSprite.shapeColor=color(255)
 
+//CREATES ENGINE AND WORLD
+engine = Engine.create();
+world = engine.world;
 
-	engine = Engine.create();
-	world = engine.world;
-
-	packageBody = Bodies.circle(width/2 , 200 , 5 , {restitution:0.75, isStatic:true});
-	World.add(world, packageBody);
-	
-
-	//Create a Ground
-	ground = Bodies.rectangle(width/2, 650, width, 10 , {isStatic:true} );
- 	World.add(world, ground);
+//CREATES PACKAGE BODY&ADDS IT TO THE WORLD
+packageBody = Bodies.circle(width/2 , 200 , 5 , {restitution:0.75, isStatic:true});
+World.add(world, packageBody);
 
 
-	Engine.run(engine);
-  
+//Create a Ground
+ground = Bodies.rectangle(width/2, 650, width, 10 , {isStatic:true} );
+World.add(world, ground);
+
+//RUNS THE ENGINE
+Engine.run(engine);
+
 }
 
 
 function draw() {
-  rectMode(CENTER);
-  background(0);
-  keyPressed();
-  packageSprite.x= packageBody.position.x ;
-  packageSprite.y= packageBody.position.y ;
-  drawSprites();
- 
+//ADJUSTS RECT. ACC. TO ITS CENTRE
+rectMode(CENTER);
+//BACKGROUND COLOUR
+background(0);
+//KEYPRESSED FNC. CALLED
+keyPressed();
+//ADJUSTS THE POS. OF PACKAGESPRITE WITH PACKAGE BODY
+packageSprite.x= packageBody.position.x ;
+packageSprite.y= packageBody.position.y ;
+//DRAWS SPRITES
+drawSprites();
+
 }
 
+//KEY PRESSED FNC.
 function keyPressed() {
- if (keyCode === DOWN_ARROW) {
-    // Look at the hints in the document and understand how to make the package body fall only on press of the Down arrow key.
-	Matter.Body.setStatic(packageBody,false);
-    
-  }
+if (keyCode === DOWN_ARROW) {
+//MAKES THE PACKAGE FALL WITH THE PRESS OF DOWN_ARROW KEY
+Matter.Body.setStatic(packageBody,false);
+
+}
 }
 
 
